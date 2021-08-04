@@ -1,6 +1,11 @@
 const express = require('express');
 const dontenv = require('dotenv');
+const connectDB = require('./config/db');
 const products = require('./data/products');
+
+dontenv.config();
+
+connectDB();
 
 const app = express();
 
