@@ -1,7 +1,7 @@
 {
   "name": "theshop",
   "version": "1.0.0",
-  "description": "MERN shopping cart app",
+  "description": "Missouri River Valley Clothing Co.",
   "main": "server.js",
   "scripts": {
     "start": "node backend/server",
