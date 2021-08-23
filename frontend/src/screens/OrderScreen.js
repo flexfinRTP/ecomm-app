@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +29,7 @@ const OrderScreen = ({ match }) => {
         }
     }, [dispatch, order, orderId])
 
-    return loading ? < Loader /> : error ? <Message variant='danger'>{error}</Message> : <>
+    return loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : <>
         <h1>Order {order._id}</h1>
         <Row>
             <Col md={8}>
