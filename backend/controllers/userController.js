@@ -7,7 +7,7 @@ const generateToken = require('../utils/generateToken')
 // @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body
 
     const user = await User.findOne({ email })
 
@@ -17,7 +17,7 @@ const authUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
-            token: generateToken(user._id)
+            token: generateToken(user._id),
         })
     } else {
         res.status(401)
@@ -26,10 +26,10 @@ const authUser = asyncHandler(async (req, res) => {
 })
 
 // @desc    Register a new user
-// @route   POST /api/users/login
+// @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body
 
     const userExists = await User.findOne({ email })
 
@@ -39,7 +39,9 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
-        name, email, password
+        name,
+        email,
+        password,
     })
 
     if (user) {
@@ -48,7 +50,7 @@ const registerUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
-            token: generateToken(user._id)
+            token: generateToken(user._id),
         })
     } else {
         res.status(400)
@@ -82,21 +84,20 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
 
     if (user) {
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
-
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
         if (req.body.password) {
             user.password = req.body.password
         }
 
-        const updatedUser = await user.save();
+        const updatedUser = await user.save()
 
         res.json({
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
             isAdmin: updatedUser.isAdmin,
-            token: generateToken(updatedUser._id)
+            token: generateToken(updatedUser._id),
         })
     } else {
         res.status(404)
@@ -105,14 +106,14 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 })
 
 // @desc    Get all users
-// @route   GET /api/users/
+// @route   GET /api/users
 // @access  Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
     const users = await User.find({})
     res.json(users)
 })
 
-// @desc    Delete User
+// @desc    Delete user
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
 const deleteUser = asyncHandler(async (req, res) => {
@@ -121,7 +122,6 @@ const deleteUser = asyncHandler(async (req, res) => {
     if (user) {
         await user.remove()
         res.json({ message: 'User removed' })
-
     } else {
         res.status(404)
         throw new Error('User not found')
@@ -133,6 +133,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id).select('-password')
+
     if (user) {
         res.json(user)
     } else {
@@ -148,17 +149,17 @@ const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
 
     if (user) {
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
-        user.isAdmin = req.body.isAdmin;
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        user.isAdmin = req.body.isAdmin
 
-        const updatedUser = await user.save();
+        const updatedUser = await user.save()
 
         res.json({
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
-            isAdmin: updatedUser.isAdmin
+            isAdmin: updatedUser.isAdmin,
         })
     } else {
         res.status(404)
