@@ -5,20 +5,24 @@ const multer = require('multer'); //multer is upload images form
 const router = express.Router()
 
 const storage = multer.diskStorage({
-    destination(req, file, cb) { //cb=callback
-        cb(null, 'uploads/') // /uploads is location
+    destination(req, file, cb) {
+        cb(null, 'uploads/')
     },
     filename(req, file, cb) {
-        cb(null, `${file.filename}-${Date.now()}${path.extname(file.originalname)}`) //path gets filename without extension
-    }
+        cb(
+            null,
+            `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}` //path gets filename without extension
+        )
+    },
 })
+
 
 function checkFileType(file, cb) { // true or false
     const filetypes = /jpg|jpeg|png/
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
     const mimetype = filetypes.test(file.mimetype) // has to have jpg, jpeg, or png in the filetype
 
-    if(extname && mimetype) {
+    if (extname && mimetype) {
         return cb(null, true)
     } else {
         cb('Images only!') //callback error msg
@@ -27,9 +31,9 @@ function checkFileType(file, cb) { // true or false
 
 const upload = multer({
     storage,
-    fileFilter: function(req, file, cb) {
+    fileFilter: function (req, file, cb) {
         checkFileType(file, cb)
-    }
+    },
 })
 
 router.post('/', upload.single('image'), (req, res) => {

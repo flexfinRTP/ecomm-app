@@ -22,17 +22,17 @@ app.get('/', (req, res) => {
     res.send('API is running')
 });
 
-app.use('/api/products', productRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/uploads', uploadRoutes);
+app.use('/api/products', productRoutes)
+app.use('/api/users', userRoutes)
+app.use('/api/orders', orderRoutes)
+app.use('/api/upload', uploadRoutes)
 
 app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 )
 
-const __dirname = path.resolve()
-app.use('/uploads', express.static(path.join(__dirname, '/uploads'))) //__dirname points to current dir, goes to uploads folder and makes folder .static
+const folder = path.resolve();
+app.use('/uploads', express.static(path.join(folder, '/uploads')));
 
 app.use(notFound);
 
