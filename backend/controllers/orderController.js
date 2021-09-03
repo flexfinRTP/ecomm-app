@@ -80,8 +80,16 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.find({ user: req.user._id});
+    const orders = await Order.find({ user: req.user._id });
     res.json(orders)
 })
 
-module.exports = { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders };
+// @desc    Get all orders
+// @route   GET /api/orders
+// @access  Private/Admin
+const getOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.find({}).populate('user', 'id name'); // from user get id and name from the order
+    res.json(orders)
+})
+
+module.exports = { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders, getOrders };
