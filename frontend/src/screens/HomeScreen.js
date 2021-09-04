@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import { listProducts } from '../actions/productActions'
+import ProductCarousel from '../components/ProductCarousel'
 
 const HomeScreen = ({ match }) => {
     const keyword = match.params.keyword
@@ -13,14 +14,17 @@ const HomeScreen = ({ match }) => {
     const pageNumber = match.params.pageNumber || 1
 
     const dispatch = useDispatch()
+
     const productList = useSelector((state) => state.productList)
     const { loading, error, products, page, pages } = productList
 
     useEffect(() => {
         dispatch(listProducts(keyword, pageNumber))
     }, [dispatch, keyword, pageNumber])
+
     return (
         <>
+        {!keyword && <ProductCarousel />}
             <h1>Latest Products</h1>
             {loading ? (
                 <Loader />
