@@ -37,6 +37,7 @@
     "concurrently": "^6.2.0",
     "nodemon": "^2.0.12"
   },
+  
     "optionalDependencies": {
       "fsevents": "2.3.2"
     }
